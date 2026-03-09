@@ -1,3 +1,7 @@
-self.addEventListener('fetch', (event) => {
-  // This allows the app to be installable
+self.addEventListener('install', (e) => {
+ console.log('Service Worker: Installed');
+});
+
+self.addEventListener('fetch', (e) => {
+ // This empty fetch handler is required for PWA installability
 });

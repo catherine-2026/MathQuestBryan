@@ -2,197 +2,57 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.5, minimum-scale=0.5, maximum-scale=3.0, user-scalable=yes">
-    <meta name="description" content="Maths Quest: An interactive adventure for Bryan to master ratios, geometry, and logic.">
-    <title>Maths Quest App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>Maths Quest 50</title>
     
     <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#1a1a2e">
-
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-         navigator.serviceWorker.register('./sw.js');
-        });
-      }
-    </script>
 
     <style>
       :root { 
         --bg: #1a1a2e; 
         --panel: #16213e; 
-        --accent: #4ecca3; /* High contrast green */
-        --danger: #ff5e78; /* Brighter for better contrast */
+        --accent: #4ecca3; 
+        --danger: #ff5e78; 
         --gold: #fca311; 
         --text-main: #ffffff;
-        --text-dim: #d1d1d1; /* Lightened for accessibility */
       }
       
+      html, body { overflow-x: hidden; width: 100%; margin: 0; padding: 0; touch-action: auto; }
+
       body { 
         background: var(--bg); 
         color: var(--text-main); 
-        font-family: 'Segoe UI', system-ui, sans-serif; 
+        font-family: 'Segoe UI', sans-serif; 
         display: flex; 
         justify-content: center; 
-        padding: 20px; 
-        margin: 0; 
+        padding: 10px; 
       }
 
       #app { 
-        width: 100%; 
+        width: 92vw;
         max-width: 450px; 
         background: var(--panel); 
         border: 3px solid var(--accent); 
         border-radius: 15px; 
-        padding: 20px; 
+        padding: 15px;
+        box-sizing: border-box;
         box-shadow: 0 0 20px rgba(0,0,0,0.5); 
+        min-height: 90vh;
       }
 
-      .status-bar { background: #0f3460; padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #1a1a2e; }
-      .xp-bar-container { height: 100%; width: 100%; background: #111; border-radius: 4px; margin: 8px 0; overflow: hidden; height: 10px; }
-      #xp-fill { height: 100%; width: 0%; background: var(--accent); transition: 0.4s; }
-      
       .map-grid { display: grid; gap: 10px; margin-top: 15px; }
-      .quest-btn { background: #0f3460; border: 2px solid var(--accent); color: white; padding: 18px; border-radius: 8px; cursor: pointer; text-align: left; font-weight: bold; font-size: 1.1rem; }
-      .quest-btn:hover { background: var(--accent); color: #111; }
-
-      .scroll-section { background: #ffffff; color: #1a1a2e; padding: 15px; border-radius: 5px; margin: 15px 0; border-left: 8px solid var(--gold); line-height: 1.5; }
-      .boss-area { border: 2px dashed var(--danger); padding: 15px; text-align: center; border-radius: 10px; }
       
-      input { padding: 12px; width: 80%; border-radius: 5px; border: 2px solid #ccc; font-size: 1.2rem; margin-bottom: 10px; text-align: center; color: #000; }
-      
-      .attack-btn { background: var(--danger); color: white; padding: 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1.2rem; }
-      .back-btn { background: transparent; border: 1px solid var(--text-dim); color: var(--text-dim); cursor: pointer; margin-bottom: 15px; padding: 8px 12px; border-radius: 4px; }
-      
-      .hidden { display: none !important; }
-      
-      .gem-box { margin-top: 25px; background: #0f3460; padding: 15px; border-radius: 10px; border: 1px solid var(--gold); text-align: center; }
-      .gem-link { display: block; background: #111; color: var(--gold); padding: 12px; margin-top: 8px; border-radius: 5px; text-decoration: none; font-size: 1rem; border: 1px solid #333; font-weight: bold; }
-      
-      /* Accessibility Fix: Footer color brightened */
-      .footer { margin-top: 30px; text-align: center; font-size: 0.8rem; color: var(--text-dim); }
-    </style>
-</head>
-<body>
-
-<main id="app"> <div class="status-bar">
-    <div id="map-view">
-  
-  <header style="text-align:center">
-    <h1 style="margin: 0; color: var(--gold); font-size: 1.8rem;">⚔️ MATH QUEST ⚔️</h1>
-    <p style="font-size:0.9rem; color:var(--text-dim); margin: 5px 0 20px 0;">Created with ❤️ for Bryan</p>
-  </header>
-
-  <div id="map-view">
-    <h2 style="color: var(--gold); text-align:center; margin: 0; font-size: 1.3rem;">🗺️ SELECT TRAINING ZONE</h2> <div class="map-grid">
-      <button class="quest-btn" onclick="startTraining('ratios')">🔀 Ratio Realm</button>
-      <button class="quest-btn" onclick="startTraining('geometry')">📐 Angle Abyss</button>
-      <button class="quest-btn" onclick="startTraining('percentage')">💰 Percent Palace</button>
-      <button class="quest-btn" onclick="startTraining('volume')">💧 Volume Void</button>
-      <button class="quest-btn" onclick="startTraining('heuristics')">🧠 Logic Labyrinth</button>
-    </div>
-  </div>
-
-  <div id="quest-view" class="hidden">
-    <button class="back-btn" onclick="goHome()">⬅️ Back to Map</button>
-    <h2 id="q-title" style="color: var(--accent); margin: 0;"></h2>
-    <div class="scroll-section">
-      <p id="q-strategy" style="font-weight: bold; margin: 0;"></p>
-      <p id="q-tip" style="font-size: 1rem; margin: 8px 0 0 0; color: #333;"></p>
-    </div>
-    <div class="boss-area">
-      <div class="boss-icon" style="font-size: 2rem; margin-bottom: 10px;">👾</div>
-      <p id="q-text" style="font-size: 1.2rem; margin-bottom: 15px; font-weight: 600;"></p>
-      <input type="number" id="user-input" placeholder="Enter number..." aria-label="Your Answer">
-      <button class="attack-btn" onclick="doAttack()">ATTACK! ⚔️</button>
-      <p id="q-feedback" style="margin-top: 15px; font-weight: bold; font-size: 1.1rem;"></p>
-    </div>
-  </div>
-
-  <section class="gem-box"> <h3 style="margin:0; color:var(--gold)">🤖 GEMINI AI GEMS</h3>
-    <a class="gem-link" href="https://gemini.google.com/gem/14PMn2hzOV7c6aFUwviTmGkAlypz757uG" target="_blank">📸 Maths Grader</a>
-    <a class="gem-link" href="https://gemini.google.com/gem/1kl4CP0hBA3ANwk2TPv0IFouJRUH9sC-m" target="_blank">⚡ Speed Drill</a>
-    <a class="gem-link" href="https://gemini.google.com/gem/1NtyzKWt_6ETZJyhw41vUDD_X5X-P0jDJ" target="_blank">🎒 Step-by-Step Coach</a>
-  </section>
-
-  <footer class="footer">
-    Copyright © 2026 Catherine N.C.L. All Rights Reserved. 
-  </footer>
-</main>
-
-<script>
-  const data = {
-    ratios: { id: 'ratios', t: "Ratio Realm", s: "Units Method", i: "If 5 units = 25, then 1 unit = 5.", q: "Ratio 2:5. If the larger part is 25, what is the smaller part?", a: 10 },
-    geometry: { id: 'geometry', t: "Angle Abyss", s: "Angle Sum", i: "Angles in a triangle = 180°.", q: "Two angles are 40° and 60°. What is the 3rd angle?", a: 80 },
-    percentage: { id: 'percentage', t: "Percent Palace", s: "9% GST", i: "Multiply by 0.09 for GST.", q: "What is 9% GST on a $100 item?", a: 9 },
-    volume: { id: 'volume', t: "Volume Void", s: "L x W x H", i: "1000cm³ = 1 Litre.", q: "Cube with side 3cm. What is the volume?", a: 27 },
-    heuristics: { id: 'heuristics', t: "Logic Labyrinth", s: "Assumption", i: "Assume all are one type, find gap.", q: "5 animals, 14 legs. (Cows=4, Chickens=2). How many cows?", a: 2 }
-  };
-
-  // Load progress
-  let xp = parseInt(localStorage.getItem('mq_xp')) || 0;
-  let completedQuests = JSON.parse(localStorage.getItem('mq_completed')) || [];
-  let currentTopic = null;
-
-  updateUI();
-
-  function updateUI() {
-    document.getElementById('xp-count').innerText = xp;
-    document.getElementById('xp-fill').style.width = (xp % 100) + "%";
-    document.getElementById('rank-name').innerText = xp >= 100 ? "Math Warrior ⚔️" : "Math Novice 🛡️";
-
-    // Show checkmarks
-    completedQuests.forEach(id => {
-        const span = document.getElementById('check-' + id);
-        if (span) span.innerText = '✅';
-    });
-  }
-
-  function startTraining(topic) {
-    currentTopic = data[topic];
-    document.getElementById('map-view').classList.add('hidden');
-    document.getElementById('quest-view').classList.remove('hidden');
-    document.getElementById('q-title').innerText = currentTopic.t;
-    document.getElementById('q-strategy').innerText = "Strategy: " + currentTopic.s;
-    document.getElementById('q-tip').innerText = "💡 " + currentTopic.i;
-    document.getElementById('q-text').innerText = currentTopic.q;
-    document.getElementById('q-feedback').innerText = "";
-    document.getElementById('user-input').value = "";
-    setTimeout(() => { document.getElementById('user-input').focus(); }, 100);
-  }
-
-  function goHome() {
-    document.getElementById('map-view').classList.remove('hidden');
-    document.getElementById('quest-view').classList.add('hidden');
-  }
-
-  function doAttack() {
-    const val = parseInt(document.getElementById('user-input').value);
-    const fb = document.getElementById('q-feedback');
-    if (val === currentTopic.a) {
-      fb.innerHTML = "💥 SUCCESS!"; fb.style.color = "#4ecca3";
-      
-      // Only add XP and checkmark if not already done
-      if (!completedQuests.includes(currentTopic.id)) {
-          xp += 20;
-          completedQuests.push(currentTopic.id);
-          localStorage.setItem('mq_xp', xp);
-          localStorage.setItem('mq_completed', JSON.stringify(completedQuests));
+      .quest-btn { 
+        background: #0f3460; 
+        border: 2px solid var(--accent); 
+        color: white; 
+        padding: 16px; 
+        border-radius: 8px; 
+        cursor: pointer; 
+        font-weight: bold; 
+        font-size: 1rem; 
+        text-align: left;
       }
-      
-      updateUI();
-      setTimeout(goHome, 1200);
-    } else {
-      fb.innerHTML = "❌ Try again!"; fb.style.color = "#ff5e78";
-    }
-  }
 
-  function resetGame() {
-    if(confirm("Reset all progress?")) {
-        localStorage.clear();
-        location.reload();
-    }
-  }
-</script>
-</body>
-</html>
+      .boss-area { border: 2px dashed var(--danger); padding: 15px; text-align: center; border-radius: 10px; margin

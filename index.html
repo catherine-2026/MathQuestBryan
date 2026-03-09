@@ -4,10 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Maths Quest 50</title>
-    
-    <link rel="manifest" href="./manifest.json">
-    <meta name="theme-color" content="#1a1a2e">
-
     <style>
       :root { 
         --bg: #1a1a2e; 
@@ -17,18 +13,15 @@
         --gold: #fca311; 
         --text-main: #ffffff;
       }
-      
-      html, body { overflow-x: hidden; width: 100%; margin: 0; padding: 0; touch-action: auto; }
-
+      html, body { overflow-x: hidden; width: 100%; margin: 0; padding: 0; }
       body { 
         background: var(--bg); 
         color: var(--text-main); 
-        font-family: 'Segoe UI', sans-serif; 
+        font-family: sans-serif; 
         display: flex; 
         justify-content: center; 
         padding: 10px; 
       }
-
       #app { 
         width: 92vw;
         max-width: 450px; 
@@ -37,12 +30,9 @@
         border-radius: 15px; 
         padding: 15px;
         box-sizing: border-box;
-        box-shadow: 0 0 20px rgba(0,0,0,0.5); 
-        min-height: 90vh;
+        min-height: 80vh;
       }
-
       .map-grid { display: grid; gap: 10px; margin-top: 15px; }
-      
       .quest-btn { 
         background: #0f3460; 
         border: 2px solid var(--accent); 
@@ -51,8 +41,82 @@
         border-radius: 8px; 
         cursor: pointer; 
         font-weight: bold; 
-        font-size: 1rem; 
         text-align: left;
       }
+      .boss-area { border: 2px dashed var(--danger); padding: 15px; text-align: center; border-radius: 10px; margin-top: 20px; }
+      input { padding: 12px; width: 80%; border-radius: 5px; border: none; font-size: 16px; margin-bottom: 10px; text-align: center; color: #000; }
+      .attack-btn { background: var(--danger); color: white; padding: 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; }
+      .back-btn { background: transparent; border: 1px solid #aaa; color: #aaa; cursor: pointer; margin-bottom: 15px; padding: 8px 12px; border-radius: 4px; }
+      .hidden { display: none !important; }
+    </style>
+</head>
+<body>
 
-      .boss-area { border: 2px dashed var(--danger); padding: 15px; text-align: center; border-radius: 10px; margin
+<main id="app">
+  <header style="text-align:center">
+    <h1 style="margin: 0; color: var(--gold);">⚔️ MATH QUEST ⚔️</h1>
+    <p style="font-size:0.8rem; opacity:0.8;">50 Random Challenges</p>
+  </header>
+
+  <div id="map-view">
+    <div class="map-grid">
+      <button class="quest-btn" onclick="startTraining('ratios')">🔀 Ratio Realm</button>
+      <button class="quest-btn" onclick="startTraining('geometry')">📐 Angle Abyss</button>
+      <button class="quest-btn" onclick="startTraining('percentage')">💰 Percent Palace</button>
+      <button class="quest-btn" onclick="startTraining('volume')">💧 Volume Void</button>
+      <button class="quest-btn" onclick="startTraining('heuristics')">🧠 Logic Labyrinth</button>
+    </div>
+  </div>
+
+  <div id="quest-view" class="hidden">
+    <button class="back-btn" onclick="goHome()">⬅️ Back</button>
+    <h2 id="q-title" style="color: var(--accent); margin: 0;"></h2>
+    <div class="boss-area">
+      <p id="q-text" style="font-size: 1.1rem; margin-bottom: 15px;"></p>
+      <input type="number" id="user-input" placeholder="Answer...">
+      <button class="attack-btn" onclick="doAttack()">ATTACK!</button>
+      <p id="q-feedback" style="margin-top: 15px; font-weight: bold;"></p>
+    </div>
+  </div>
+</main>
+
+<script>
+  const questBank = {
+    ratios: [
+      {q: "Ratio 2:5. If larger is 25, find smaller.", a: 10},
+      {q: "Ratio 1:4. Total is 50. Find smaller.", a: 10},
+      {q: "Ratio 3:2. Smaller is 12. Find larger.", a: 18},
+      {q: "3 units = 21. Find 5 units.", a: 35},
+      {q: "Ratio 7:3. Difference is 20. Find 1 unit.", a: 5},
+      {q: "Ratio 4:9. Larger is 45. Find smaller.", a: 20},
+      {q: "Total 40, ratio 3:5. Find larger.", a: 25},
+      {q: "Ratio 1:1. Total is 100. Find one part.", a: 50},
+      {q: "Ratio 2:3. Smaller is 10. Find total.", a: 25},
+      {q: "10 units = 100. Find 7 units.", a: 70}
+    ],
+    geometry: [
+      {q: "Triangle: 90°, 30°. Find 3rd angle.", a: 60},
+      {q: "Straight line: 120° and ?", a: 60},
+      {q: "Square area is 64. Find side length.", a: 8},
+      {q: "Rect: Length 10, Width 5. Perimeter?", a: 30},
+      {q: "Sum of angles in a triangle?", a: 180},
+      {q: "Equilateral triangle angle?", a: 60},
+      {q: "Right angle minus 15° is?", a: 75},
+      {q: "Isosceles: 2 angles are 50°. 3rd angle?", a: 80},
+      {q: "Angles in a square total?", a: 360},
+      {q: "Circle radius 5. Find diameter.", a: 10}
+    ],
+    percentage: [
+      {q: "9% GST on $100?", a: 9},
+      {q: "10% of 250?", a: 25},
+      {q: "Convert 0.75 to percentage.", a: 75},
+      {q: "20% of 80?", a: 16},
+      {q: "Original $50, 10% discount. New price?", a: 45},
+      {q: "50% of what number is 30?", a: 60},
+      {q: "Increase 40 by 100%.", a: 80},
+      {q: "What is 1/4 as a percentage?", a: 25},
+      {q: "5% of 200?", a: 10},
+      {q: "A toy costs $20. GST (9%) is $?", a: 1.8}
+    ],
+    volume: [
+      {q: "Cube side 2cm. Volume?", a: 8},

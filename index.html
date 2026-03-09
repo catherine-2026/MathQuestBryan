@@ -4,54 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Maths Quest 50</title>
-    <style>
-      :root { 
-        --bg: #1a1a2e; 
-        --panel: #16213e; 
-        --accent: #4ecca3; 
-        --danger: #ff5e78; 
-        --gold: #fca311; 
-        --text-main: #ffffff;
-      }
-      
-      html, body { overflow-x: hidden; width: 100%; margin: 0; padding: 0; background: var(--bg); }
-      body { font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 10px; box-sizing: border-box; }
+ <style>
+  :root { 
+    --bg: #1a1a2e; 
+    --panel: #16213e; 
+    --accent: #4ecca3; 
+    --danger: #ff5e78; 
+    --gold: #fca311; 
+    --text-main: #ffffff; /* This ensures main text is white */
+  }
+  
+  html, body { overflow-x: hidden; width: 100%; margin: 0; padding: 0; background: var(--bg); }
+  body { font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 10px; box-sizing: border-box; }
 
-      #app { 
-        width: 100%; max-width: 400px; background: var(--panel); border: 3px solid var(--accent); 
-        border-radius: 15px; padding: 20px; box-sizing: border-box; min-height: 85vh;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column;
-      }
+  #app { 
+    width: 100%; max-width: 400px; background: var(--panel); border: 3px solid var(--accent); 
+    border-radius: 15px; padding: 20px; box-sizing: border-box; min-height: 85vh;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column;
+  }
 
-      header { text-align: center; margin-bottom: 20px; }
-      .map-grid { display: grid; gap: 12px; }
+  header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+  
+  /* THIS FIXES THE BLACK TEXT ISSUE */
+  #q-text { 
+    color: #ffffff !important; 
+    font-size: 1.3rem; 
+    font-weight: 500;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  }
 
-      .quest-btn { 
-        background: #0f3460; border: 2px solid var(--accent); color: white; padding: 18px; 
-        border-radius: 10px; cursor: pointer; font-weight: bold; text-align: left; font-size: 1.1rem;
-      }
+  .map-grid { display: grid; gap: 12px; }
 
-      .boss-area { border: 2px dashed var(--danger); padding: 20px; text-align: center; border-radius: 12px; margin-top: 20px; background: rgba(0,0,0,0.2); }
-      input { padding: 15px; width: 80%; border-radius: 8px; border: none; font-size: 18px; margin-bottom: 15px; text-align: center; color: #000; }
-      .attack-btn { background: var(--danger); color: white; padding: 16px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1.2rem; }
-      .back-btn { background: transparent; border: 1px solid #aaa; color: #aaa; cursor: pointer; margin-bottom: 20px; padding: 8px 15px; border-radius: 5px; }
+  .quest-btn { 
+    background: #0f3460; border: 2px solid var(--accent); color: white; padding: 18px; 
+    border-radius: 10px; cursor: pointer; font-weight: bold; text-align: left; font-size: 1.1rem;
+  }
 
-      .gem-container { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: auto; padding-top: 30px; border-top: 1px solid #333; }
-      .gem-row { display: flex; justify-content: center; gap: 30px; }
-      .gem-link { text-decoration: none; text-align: center; }
-      .gem { font-size: 2rem; filter: drop-shadow(0 0 8px currentColor); animation: float 3s ease-in-out infinite; cursor: pointer; display: block; }
-      .gem-label { font-size: 0.6rem; color: #fff; opacity: 0.7; margin-top: 5px; font-weight: bold; text-transform: uppercase; }
+  .boss-area { border: 2px dashed var(--danger); padding: 20px; text-align: center; border-radius: 12px; margin-top: 20px; background: rgba(255,255,255,0.05); }
+  
+  /* Fix for the input box text */
+  input { padding: 15px; width: 80%; border-radius: 8px; border: 2px solid var(--accent); font-size: 20px; margin-bottom: 15px; text-align: center; color: #000; background: #fff; font-weight: bold; }
+  
+  .attack-btn { background: var(--danger); color: white; padding: 16px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1.2rem; }
+  .back-btn { background: transparent; border: 1px solid #aaa; color: #aaa; cursor: pointer; margin-bottom: 20px; padding: 8px 15px; border-radius: 5px; }
 
-      @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-      .hidden { display: none !important; }
-    </style>
-</head>
+  .gem-container { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: auto; padding-top: 30px; }
+  .gem-row { display: flex; justify-content: center; gap: 30px; }
+  .gem-link { text-decoration: none; text-align: center; }
+  .gem { font-size: 2rem; filter: drop-shadow(0 0 8px currentColor); animation: float 3s ease-in-out infinite; cursor: pointer; display: block; }
+  .gem-label { font-size: 0.65rem; color: #fff; opacity: 0.9; margin-top: 5px; font-weight: bold; }
+
+  @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+  .hidden { display: none !important; }
+</style>
+
 <body>
 
 <main id="app">
   <header>
-    <h1 style="margin: 0; color: var(--gold); font-size: 1.8rem;">⚔️ MATH QUEST ⚔️</h1>
-    <p style="font-size:0.9rem; color:var(--text-main); margin-top:8px;">Created with ❤️ for Bryan</p>
+    <h1 style="margin: 0; color: var(--gold); font-size: 1.8rem; text-shadow: 0 0 10px rgba(252, 163, 17, 0.3);">⚔️ MATH QUEST ⚔️</h1>
+    <p style="font-size:1.1rem; color:var(--gold); font-weight:bold; margin: 10px 0 0 0;">✨ Created with ❤️ for Bryan ✨</p>
   </header>
 
   <div id="map-view">

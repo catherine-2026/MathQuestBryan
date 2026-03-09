@@ -65,7 +65,12 @@
     <h1 style="margin: 0; color: var(--gold); font-size: 1.8rem; text-shadow: 0 0 10px rgba(252, 163, 17, 0.3);">⚔️ MATH QUEST ⚔️</h1>
     <p style="font-size:1.1rem; color:var(--gold); font-weight:bold; margin: 10px 0 0 0;">✨ Created with ❤️ for Bryan ✨</p>
   </header>
-
+<div id="victory-screen" class="hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(22, 33, 62, 0.95); display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 12px; z-index: 10; text-align: center;">
+  <h1 style="color: var(--gold); font-size: 3rem; margin: 0;">🏆</h1>
+  <h2 style="color: var(--accent);">LEVEL UP!</h2>
+  <p style="color: white; font-size: 1.2rem;">Bryan defeated the challenge!</p>
+  <button class="quest-btn" onclick="goHome()" style="text-align: center; margin-top: 20px;">Return to Map</button>
+</div>
   <div id="map-view">
     <div class="map-grid">
       <button class="quest-btn" onclick="startTraining('ratios')">🔀 Ratio Realm</button>
@@ -100,6 +105,9 @@
       <a href="https://gemini.google.com/gem/1NtyzKWt_6ETZJyhw41vUDD_X5X-P0jDJ" target="_blank" class="gem-link">
           <span class="gem" style="color: #fca311;">💎</span>
           <div class="gem-label">Coach</div>
+          <div style="margin-top: 25px; font-size: 0.65rem; color: rgba(255,255,255,0.4); text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; width: 100%;">
+  Copyright © 2026 [Catherine N.C.L]. All Rights Reserved.
+</div>
       </a>
     </div>
   </div>
@@ -190,13 +198,24 @@
   }
 
   function doAttack() {
-    const val = parseFloat(document.getElementById('user-input').value);
-    const fb = document.getElementById('q-feedback');
-    if (val === currentQ.a) {
-      fb.innerHTML = "💥 SUCCESS!"; fb.style.color = "var(--accent)";
-      setTimeout(goHome, 1200);
-    } else {
-      fb.innerHTML = "❌ TRY AGAIN!"; fb.style.color = "var(--danger)";
+  const val = parseFloat(document.getElementById('user-input').value);
+  const fb = document.getElementById('q-feedback');
+  
+  if (val === currentQ.a) {
+    // Show Victory Screen instead of just a message
+    document.getElementById('victory-screen').classList.remove('hidden');
+    document.getElementById('quest-view').classList.add('hidden');
+  } else {
+    fb.innerHTML = "❌ TRY AGAIN!"; 
+    fb.style.color = "var(--danger)";
+  }
+
+// Update your goHome function to hide the trophy too
+function goHome() {
+  document.getElementById('map-view').classList.remove('hidden');
+  document.getElementById('quest-view').classList.add('hidden');
+  document.getElementById('victory-screen').classList.add('hidden');
+}
     }
   }
 </script>

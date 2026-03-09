@@ -1,7 +1,26 @@
+const cacheName = 'maths-quest-v1';
+const assets = [
+  './',
+  './index.html',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png'
+];
+
+// Install Service Worker and cache files
 self.addEventListener('install', (e) => {
- console.log('Service Worker: Installed');
+  e.waitUntil(
+    caches.open(cacheName).then((cache) => {
+      return cache.addAll(assets);
+    })
+  );
 });
 
+// Serve cached content when offline
 self.addEventListener('fetch', (e) => {
- // This empty fetch handler is required for PWA installability
+  e.respondWith(
+    caches.match(e.request).then((response) => {
+      return response || fetch(e.request);
+    })
+  );
 });

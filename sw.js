@@ -1,3 +1,3 @@
-self.addEventListener('fetch', function(event) {
-  // This empty listener is enough to trigger the "Install" prompt
+self.addEventListener('fetch', (event) => {
+  // This allows the app to be installable
 });

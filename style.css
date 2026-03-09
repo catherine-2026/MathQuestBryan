@@ -46,7 +46,11 @@
   .quest-btn { padding: 14px; font-size: 1rem; width: 100%; }
   
   .scroll-section { padding: 10px; font-size: 0.9rem; }
-  input { width: 90%; font-size: 1rem; padding: 10px; }
+  input { 
+  font-size: 16px; /* Prevents iOS from auto-zooming on focus */
+  padding: 12px;
+  width: 90%;
+}
   .attack-btn { font-size: 1rem; padding: 12px; }
 
   /* Mobile Specific Adjustments */
@@ -57,3 +61,4 @@
     .quest-btn { font-size: 0.9rem; padding: 12px; }
   }
 </style>
+

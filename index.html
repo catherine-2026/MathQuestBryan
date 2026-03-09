@@ -2,98 +2,105 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Maths Quest</title>
     <style>
       :root { 
         --bg: #1a1a2e; --panel: #16213e; --accent: #4ecca3; 
-        --danger: #ff5e78; --gold: #fca311; --text-main: #ffffff;
+        --danger: #ff5e78; --gold: #fca311;
       }
-      html, body { overflow-x: hidden; width: 100%; margin: 0; padding: 0; background: var(--bg); }
-      body { font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 10px; box-sizing: border-box; }
+      * { box-sizing: border-box; }
+      body { 
+        margin: 0; padding: 5px; background: var(--bg); 
+        font-family: sans-serif; color: white;
+        height: 100vh; display: flex; justify-content: center; overflow: hidden;
+      }
       #app { 
-        width: 100%; max-width: 400px; background: var(--panel); border: 3px solid var(--accent); 
-        border-radius: 15px; padding: 20px; box-sizing: border-box; min-height: 90vh;
-        display: flex; flex-direction: column; position: relative;
+        width: 100%; max-width: 380px; height: 100%;
+        background: var(--panel); border: 2px solid var(--accent); 
+        border-radius: 12px; display: flex; flex-direction: column; padding: 10px;
       }
-      header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
-      #q-text { color: #ffffff !important; font-size: 1.3rem; font-weight: 500; margin-bottom: 20px; display: block; }
-      .map-grid { display: grid; gap: 12px; margin-bottom: 20px; }
+      header { text-align: center; padding-bottom: 5px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+      h1 { margin: 0; color: var(--gold); font-size: 1.3rem; }
+      .bryan-line { font-size: 0.9rem; color: var(--gold); font-weight: bold; margin: 3px 0; }
+      
+      #game-content { flex: 1; overflow-y: auto; padding: 10px 0; }
+      
+      .map-grid { display: grid; gap: 8px; }
       .quest-btn { 
-        background: #0f3460; border: 2px solid var(--accent); color: white; padding: 18px; 
-        border-radius: 10px; cursor: pointer; font-weight: bold; text-align: left; font-size: 1.1rem;
+        background: #0f3460; border: 1px solid var(--accent); color: white; padding: 12px; 
+        border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.95rem; text-align: left;
       }
-      .boss-area { border: 2px dashed var(--danger); padding: 20px; text-align: center; border-radius: 12px; margin-top: 20px; background: rgba(255,255,255,0.05); }
-      input { padding: 15px; width: 80%; border-radius: 8px; border: 2px solid var(--accent); font-size: 20px; margin-bottom: 15px; text-align: center; color: #000; background: #fff; font-weight: bold; }
-      .attack-btn { background: var(--danger); color: white; padding: 16px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1.2rem; }
-      .back-btn { background: transparent; border: 1px solid #aaa; color: #aaa; cursor: pointer; margin-bottom: 20px; padding: 8px 15px; border-radius: 5px; }
+      .boss-area { border: 2px dashed var(--danger); padding: 15px; text-align: center; border-radius: 10px; background: rgba(0,0,0,0.2); }
+      #q-text { font-size: 1.1rem; margin-bottom: 10px; display: block; }
+      input { padding: 10px; width: 100%; border-radius: 5px; border: 2px solid var(--accent); font-size: 1.2rem; margin-bottom: 10px; text-align: center; }
       
-      /* GEM SECTION STYLES */
-      .gem-container { margin-top: auto; padding-top: 20px; width: 100%; }
-      .gem-row { display: flex; justify-content: space-evenly; width: 100%; margin-bottom: 15px; }
-      .gem-link { text-decoration: none; text-align: center; flex: 1; }
-      .gem { font-size: 1.8rem; display: block; margin-bottom: 5px; cursor: pointer; }
-      .gem-label { font-size: 0.65rem; color: #fff; opacity: 0.9; font-weight: bold; }
+      .attack-btn { background: var(--danger); color: white; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; }
+      .back-btn { background: rgba(255,255,255,0.1); border: 1px solid #aaa; color: #fff; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; margin-bottom: 10px; }
+
+      footer { padding-top: 5px; border-top: 1px solid rgba(255,255,255,0.1); }
+      .gem-row { display: flex; justify-content: space-around; margin-bottom: 5px; }
+      .gem-link { text-decoration: none; text-align: center; color: white; font-size: 0.6rem; }
+      .gem { font-size: 1.3rem; display: block; }
       
-      .hidden { display: none !important; pointer-events: none !important; visibility: hidden !important; }
+      .hidden { display: none !important; }
       
       #victory-screen {
         position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(22, 33, 62, 0.98); display: flex; flex-direction: column;
-        justify-content: center; align-items: center; border-radius: 12px; z-index: 99; text-align: center; padding: 20px; box-sizing: border-box;
+        background: rgba(26, 26, 46, 0.98); display: flex; flex-direction: column;
+        justify-content: center; align-items: center; z-index: 100; text-align: center; padding: 20px;
       }
-      .reset-btn { background: none; border: 1px solid var(--gold); color: var(--gold); font-size: 0.7rem; padding: 2px 8px; border-radius: 4px; cursor: pointer; margin-left: 10px; }
     </style>
 </head>
 <body>
 <main id="app">
   <header>
-    <h1 style="margin: 0; color: var(--gold); font-size: 1.8rem;">⚔️ MATH QUEST ⚔️</h1>
-    <p style="font-size:1.1rem; color:var(--gold); font-weight:bold; margin: 10px 0 0 0;">✨ Created with ❤️ for Bryan ✨</p>
-    <div style="display: flex; justify-content: center; align-items: center; margin-top: 10px;">
-      <span id="score-display" style="color: var(--accent); font-weight: bold; font-size: 1.2rem;">Score: 0</span>
-      <button class="reset-btn" onclick="resetScore()">Reset</button>
+    <h1>⚔️ MATH QUEST ⚔️</h1>
+    <p class="bryan-line">✨ Created with ❤️ for Bryan ✨</p>
+    <div style="font-size: 1rem; font-weight: bold; color: var(--accent);">
+      Score: <span id="score-display">0</span>
+      <button onclick="resetScore()" style="background:none; border:1px solid var(--gold); color:var(--gold); font-size:0.6rem; padding:2px 5px; margin-left:10px; border-radius:3px;">Reset</button>
     </div>
   </header>
 
+  <div id="game-content">
+    <div id="map-view">
+      <div class="map-grid">
+        <button class="quest-btn" onclick="startTraining('ratios')">🔀 Ratio Realm</button>
+        <button class="quest-btn" onclick="startTraining('geometry')">📐 Angle Abyss</button>
+        <button class="quest-btn" onclick="startTraining('percentage')">💰 Percent Palace</button>
+        <button class="quest-btn" onclick="startTraining('volume')">💧 Volume Void</button>
+        <button class="quest-btn" onclick="startTraining('heuristics')">🧠 Logic Labyrinth</button>
+      </div>
+    </div>
+
+    <div id="quest-view" class="hidden">
+      <button class="back-btn" onclick="goHome()">⬅️ Back</button>
+      <div class="boss-area">
+        <h3 id="q-title" style="margin:0 0 10px 0; color:var(--accent);"></h3>
+        <p id="q-text"></p>
+        <input type="number" id="user-input" inputmode="numeric">
+        <button class="attack-btn" onclick="doAttack()">ATTACK!</button>
+        <p id="q-feedback" style="margin-top: 10px;"></p>
+      </div>
+    </div>
+  </div>
+
   <div id="victory-screen" class="hidden">
-    <h1 style="font-size: 4rem; margin: 0;">🏆</h1>
-    <h2 style="color: var(--accent);">LEVEL UP!</h2>
-    <p style="color: white; font-size: 1.2rem;">Bryan defeated the challenge!</p>
-    <button class="attack-btn" onclick="goHome()" style="margin-top: 20px; max-width: 200px;">Return to Map</button>
+    <h1 style="font-size: 3rem;">🏆</h1>
+    <h2>LEVEL UP!</h2>
+    <p>Bryan defeated the challenge!</p>
+    <button class="attack-btn" onclick="goHome()" style="margin-top: 15px; width: 150px;">Next</button>
   </div>
 
-  <div id="map-view">
-    <div class="map-grid">
-      <button class="quest-btn" onclick="startTraining('ratios')">🔀 Ratio Realm</button>
-      <button class="quest-btn" onclick="startTraining('geometry')">📐 Angle Abyss</button>
-      <button class="quest-btn" onclick="startTraining('percentage')">💰 Percent Palace</button>
-      <button class="quest-btn" onclick="startTraining('volume')">💧 Volume Void</button>
-      <button class="quest-btn" onclick="startTraining('heuristics')">🧠 Logic Labyrinth</button>
-    </div>
-  </div>
-
-  <div id="quest-view" class="hidden">
-    <button class="back-btn" onclick="goHome()">⬅️ Back</button>
-    <h2 id="q-title" style="color: var(--accent); margin: 0; font-size: 1.3rem; text-align:center;"></h2>
-    <div class="boss-area">
-      <p id="q-text"></p>
-      <input type="number" id="user-input" placeholder="Answer..." inputmode="numeric">
-      <button class="attack-btn" onclick="doAttack()">ATTACK!</button>
-      <p id="q-feedback" style="margin-top: 15px; font-weight: bold;"></p>
-    </div>
-  </div>
-
-  <div class="gem-container">
+  <footer>
     <div class="gem-row">
-      <a href="https://gemini.google.com/gem/14PMn2hzOV7c6aFUwviTmGkAlypz757uG" target="_blank" class="gem-link"><span class="gem">💎</span><div class="gem-label">Grader</div></a>
-      <a href="https://gemini.google.com/gem/1kl4CP0hBA3ANwk2TPv0IFouJRUH9sC-m" target="_blank" class="gem-link"><span class="gem">💎</span><div class="gem-label">Drill</div></a>
-      <a href="https://gemini.google.com/gem/1NtyzKWt_6ETZJyhw41vUDD_X5X-P0jDJ" target="_blank" class="gem-link"><span class="gem">💎</span><div class="gem-label">Coach</div></a>
+      <a href="https://gemini.google.com/gem/14PMn2hzOV7c6aFUwviTmGkAlypz757uG" target="_blank" class="gem-link"><span class="gem">💎</span>Grader</a>
+      <a href="https://gemini.google.com/gem/1kl4CP0hBA3ANwk2TPv0IFouJRUH9sC-m" target="_blank" class="gem-link"><span class="gem">💎</span>Drill</a>
+      <a href="https://gemini.google.com/gem/1NtyzKWt_6ETZJyhw41vUDD_X5X-P0jDJ" target="_blank" class="gem-link"><span class="gem">💎</span>Coach</a>
     </div>
-    <div style="font-size: 0.6rem; color: rgba(255,255,255,0.4); text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; width: 100%;">
-      Copyright © 2026 [Catherine N.C.L]. All Rights Reserved.
-    </div>
-  </div>
+    <div style="font-size: 0.5rem; color: gray; text-align: center;">© 2026 Catherine N.C.L</div>
+  </footer>
 </main>
 
 <script>
@@ -101,66 +108,11 @@
   let currentQ = null;
 
   const questBank = {
-    ratios: [
-      {q: "Ratio 2:5. If larger is 25, find smaller.", a: 10},
-      {q: "Ratio 1:4. Total is 50. Find smaller.", a: 10},
-      {q: "Ratio 3:2. Smaller is 12. Find larger.", a: 18},
-      {q: "3 units = 21. Find 5 units.", a: 35},
-      {q: "Ratio 7:3. Difference is 20. Find 1 unit.", a: 5},
-      {q: "Ratio 4:9. Larger is 45. Find smaller.", a: 20},
-      {q: "Total 40, ratio 3:5. Find larger.", a: 25},
-      {q: "Ratio 1:1. Total is 100. Find one part.", a: 50},
-      {q: "Ratio 2:3. Smaller is 10. Find total.", a: 25},
-      {q: "10 units = 100. Find 7 units.", a: 70}
-    ],
-    geometry: [
-      {q: "Triangle: 90°, 30°. Find 3rd angle.", a: 60},
-      {q: "Straight line: 120° and ?", a: 60},
-      {q: "Square area is 64. Find side length.", a: 8},
-      {q: "Rect: Length 10, Width 5. Perimeter?", a: 30},
-      {q: "Sum of angles in a triangle?", a: 180},
-      {q: "Equilateral triangle angle?", a: 60},
-      {q: "Right angle minus 15° is?", a: 75},
-      {q: "Isosceles: 2 angles are 50°. 3rd angle?", a: 80},
-      {q: "Angles in a square total?", a: 360},
-      {q: "Circle radius 5. Find diameter.", a: 10}
-    ],
-    percentage: [
-      {q: "9% GST on $100?", a: 9},
-      {q: "10% of 250?", a: 25},
-      {q: "Convert 0.75 to percentage.", a: 75},
-      {q: "20% of 80?", a: 16},
-      {q: "Original $50, 10% discount. New price?", a: 45},
-      {q: "50% of what number is 30?", a: 60},
-      {q: "Increase 40 by 100%.", a: 80},
-      {q: "What is 1/4 as a percentage?", a: 25},
-      {q: "5% of 200?", a: 10},
-      {q: "A toy costs $20. GST (9%) is $?", a: 1.8}
-    ],
-    volume: [
-      {q: "Cube side 2cm. Volume?", a: 8},
-      {q: "Rect block: 5x2x3. Volume?", a: 30},
-      {q: "1 Litre = 1000ml. Half litre?", a: 500},
-      {q: "Tank 10x10x10. Find Volume.", a: 1000},
-      {q: "Base Area 20, Height 5. Volume?", a: 100},
-      {q: "How many 1cm cubes fit in a 2x2x2 box?", a: 8},
-      {q: "Volume of cube with side 3?", a: 27},
-      {q: "Cube side 4. Volume?", a: 64},
-      {q: "Volume 120, Length 10, Width 3. Height?", a: 4},
-      {q: "4000cm³ is how many Litres?", a: 4}
-    ],
-    heuristics: [
-      {q: "5 animals, 14 legs (Cows=4, Hens=2). Cows?", a: 2},
-      {q: "Double a number and add 5 = 15. Number?", a: 5},
-      {q: "Pattern: 2, 4, 8, 16, ?", a: 32},
-      {q: "3 apples $6. How much for 5 apples?", a: 10},
-      {q: "Gap between 1st and 5th post (5m each)?", a: 20},
-      {q: "I think of a number, divide by 2 = 10. Number?", a: 20},
-      {q: "2 people = 1 handshake. 3 people?", a: 3},
-      {q: "A bus starts with 10 kids, 5 drop, 2 enter. Total?", a: 7},
-      {q: "Book has 10 pages. How many '1' digits?", a: 2},
-      {q: "Snail climbs 3m, slips 2m daily. 5m wall days?", a: 3}
-    ]
+    ratios: [{q: "Ratio 2:5. Larger is 25, find smaller.", a: 10}, {q: "Ratio 3:2. Smaller is 12. Find larger.", a: 18}],
+    geometry: [{q: "Triangle: 90°, 30°. Find 3rd angle.", a: 60}, {q: "Straight line: 120° and ?", a: 60}],
+    percentage: [{q: "9% GST on $100?", a: 9}, {q: "10% of 250?", a: 25}],
+    volume: [{q: "Cube side 2cm. Volume?", a: 8}, {q: "Base 20, Height 5. Volume?", a: 100}],
+    heuristics: [{q: "5 animals, 14 legs (4-leg vs 2-leg). Cows?", a: 2}, {q: "Pattern: 2, 4, 8, 16, ?", a: 32}]
   };
 
   function startTraining(topic) {
@@ -168,42 +120,33 @@
     currentQ = list[Math.floor(Math.random() * list.length)];
     document.getElementById('map-view').classList.add('hidden');
     document.getElementById('quest-view').classList.remove('hidden');
-    document.getElementById('victory-screen').classList.add('hidden');
     document.getElementById('q-title').innerText = topic.toUpperCase();
     document.getElementById('q-text').innerText = currentQ.q;
     document.getElementById('q-feedback').innerText = "";
     document.getElementById('user-input').value = "";
-    window.scrollTo(0,0);
   }
 
   function goHome() {
     document.getElementById('map-view').classList.remove('hidden');
     document.getElementById('quest-view').classList.add('hidden');
     document.getElementById('victory-screen').classList.add('hidden');
-    window.scrollTo(0,0);
   }
 
   function doAttack() {
-    const userInput = document.getElementById('user-input').value;
-    if (userInput === "") return;
-    const val = parseFloat(userInput);
-    const fb = document.getElementById('q-feedback');
-    
+    const val = parseFloat(document.getElementById('user-input').value);
     if (val === currentQ.a) {
       totalScore += 10;
-      document.getElementById('score-display').innerText = "Score: " + totalScore;
+      document.getElementById('score-display').innerText = totalScore;
       document.getElementById('victory-screen').classList.remove('hidden');
-      document.getElementById('quest-view').classList.add('hidden');
     } else {
-      fb.innerHTML = "❌ TRY AGAIN!"; 
-      fb.style.color = "var(--danger)";
+      document.getElementById('q-feedback').innerText = "❌ Try Again!";
     }
   }
 
   function resetScore() {
-    if(confirm("Start your journey again from zero?")) {
+    if(confirm("Reset Score?")) {
       totalScore = 0;
-      document.getElementById('score-display').innerText = "Score: 0";
+      document.getElementById('score-display').innerText = "0";
     }
   }
 </script>

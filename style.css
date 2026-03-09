@@ -26,8 +26,15 @@
     justify-content: center; 
     padding: 10px; /* Reduced from 20px */
   }
+body {
+    font-size: 18px; /* Makes all text slightly larger for easier reading */
+}
 
+input {
+    font-size: 16px; /* Important: iPhones will "jump-zoom" if your input text is smaller than 16px */
+}
   #app { 
+    touch-action: auto; 
     width: 100%; 
     max-width: 450px; 
     background: var(--panel); 
@@ -61,4 +68,5 @@
     .quest-btn { font-size: 0.9rem; padding: 12px; }
   }
 </style>
+
 

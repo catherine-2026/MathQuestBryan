@@ -14,117 +14,35 @@
         --text-main: #ffffff;
       }
       
-      html, body { 
-        overflow-x: hidden; 
-        width: 100%; 
-        margin: 0; 
-        padding: 0; 
-        background: var(--bg);
-      }
-
-      body { 
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-        display: flex; 
-        justify-content: center; 
-        padding: 10px; 
-        box-sizing: border-box;
-      }
+      html, body { overflow-x: hidden; width: 100%; margin: 0; padding: 0; background: var(--bg); }
+      body { font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 10px; box-sizing: border-box; }
 
       #app { 
-        width: 100%;
-        max-width: 400px; 
-        background: var(--panel); 
-        border: 3px solid var(--accent); 
-        border-radius: 15px; 
-        padding: 20px;
-        box-sizing: border-box;
-        min-height: 85vh;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        display: flex;
-        flex-direction: column;
+        width: 100%; max-width: 400px; background: var(--panel); border: 3px solid var(--accent); 
+        border-radius: 15px; padding: 20px; box-sizing: border-box; min-height: 85vh;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5); display: flex; flex-direction: column;
       }
 
       header { text-align: center; margin-bottom: 20px; }
-
       .map-grid { display: grid; gap: 12px; }
 
       .quest-btn { 
-        background: #0f3460; 
-        border: 2px solid var(--accent); 
-        color: white; 
-        padding: 18px; 
-        border-radius: 10px; 
-        cursor: pointer; 
-        font-weight: bold; 
-        text-align: left;
-        font-size: 1.1rem;
-        transition: 0.2s;
-      }
-      .quest-btn:active { transform: scale(0.98); background: var(--accent); color: #111; }
-
-      .boss-area { 
-        border: 2px dashed var(--danger); 
-        padding: 20px; 
-        text-align: center; 
-        border-radius: 12px; 
-        margin-top: 20px; 
-        background: rgba(0,0,0,0.2);
+        background: #0f3460; border: 2px solid var(--accent); color: white; padding: 18px; 
+        border-radius: 10px; cursor: pointer; font-weight: bold; text-align: left; font-size: 1.1rem;
       }
 
-      input { 
-        padding: 15px; 
-        width: 80%; 
-        border-radius: 8px; 
-        border: none; 
-        font-size: 18px; 
-        margin-bottom: 15px; 
-        text-align: center; 
-        color: #000;
-        inputmode: numeric;
-      }
+      .boss-area { border: 2px dashed var(--danger); padding: 20px; text-align: center; border-radius: 12px; margin-top: 20px; background: rgba(0,0,0,0.2); }
+      input { padding: 15px; width: 80%; border-radius: 8px; border: none; font-size: 18px; margin-bottom: 15px; text-align: center; color: #000; }
+      .attack-btn { background: var(--danger); color: white; padding: 16px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1.2rem; }
+      .back-btn { background: transparent; border: 1px solid #aaa; color: #aaa; cursor: pointer; margin-bottom: 20px; padding: 8px 15px; border-radius: 5px; }
 
-      .attack-btn { 
-        background: var(--danger); 
-        color: white; 
-        padding: 16px; 
-        border: none; 
-        border-radius: 8px; 
-        cursor: pointer; 
-        font-weight: bold; 
-        width: 100%; 
-        font-size: 1.2rem;
-        text-transform: uppercase;
-      }
+      .gem-container { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: auto; padding-top: 30px; border-top: 1px solid #333; }
+      .gem-row { display: flex; justify-content: center; gap: 30px; }
+      .gem-link { text-decoration: none; text-align: center; }
+      .gem { font-size: 2rem; filter: drop-shadow(0 0 8px currentColor); animation: float 3s ease-in-out infinite; cursor: pointer; display: block; }
+      .gem-label { font-size: 0.6rem; color: #fff; opacity: 0.7; margin-top: 5px; font-weight: bold; text-transform: uppercase; }
 
-      .back-btn { 
-        background: transparent; 
-        border: 1px solid #aaa; 
-        color: #aaa; 
-        cursor: pointer; 
-        margin-bottom: 20px; 
-        padding: 8px 15px; 
-        border-radius: 5px; 
-      }
-
-      .gem-container {
-        display: flex; 
-        justify-content: center; 
-        gap: 25px; 
-        margin-top: auto; 
-        padding-top: 30px;
-      }
-
-      .gem {
-        font-size: 1.8rem;
-        filter: drop-shadow(0 0 8px currentColor);
-        animation: float 3s ease-in-out infinite;
-      }
-
-      @keyframes float {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-8px); }
-      }
-
+      @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
       .hidden { display: none !important; }
     </style>
 </head>
@@ -133,7 +51,7 @@
 <main id="app">
   <header>
     <h1 style="margin: 0; color: var(--gold); font-size: 1.8rem;">⚔️ MATH QUEST ⚔️</h1>
-    <p style="font-size:0.8rem; opacity:0.8; margin-top:5px;">50 Challenges for Bryan</p>
+    <p style="font-size:0.9rem; color:var(--text-main); margin-top:8px;">Created with ❤️ for Bryan</p>
   </header>
 
   <div id="map-view">
@@ -147,20 +65,31 @@
   </div>
 
   <div id="quest-view" class="hidden">
-    <button class="back-btn" onclick="goHome()">⬅️ Back to Map</button>
+    <button class="back-btn" onclick="goHome()">⬅️ Back</button>
     <h2 id="q-title" style="color: var(--accent); margin: 0; font-size: 1.3rem; text-align:center;"></h2>
     <div class="boss-area">
       <p id="q-text" style="font-size: 1.2rem; margin-bottom: 20px; line-height: 1.5;"></p>
-      <input type="number" id="user-input" placeholder="Enter answer...">
+      <input type="number" id="user-input" placeholder="Answer..." inputmode="numeric">
       <button class="attack-btn" onclick="doAttack()">ATTACK!</button>
-      <p id="q-feedback" style="margin-top: 15px; font-weight: bold; min-height: 1.2em;"></p>
+      <p id="q-feedback" style="margin-top: 15px; font-weight: bold;"></p>
     </div>
   </div>
 
   <div class="gem-container">
-    <span class="gem" style="color: #4ecca3;">💎</span>
-    <span class="gem" style="color: #ff5e78;">💎</span>
-    <span class="gem" style="color: #fca311;">💎</span>
+    <div class="gem-row">
+      <a href="https://gemini.google.com/gem/14PMn2hzOV7c6aFUwviTmGkAlypz757uG" target="_blank" class="gem-link">
+          <span class="gem" style="color: #4ecca3;">💎</span>
+          <div class="gem-label">Grader</div>
+      </a>
+      <a href="https://gemini.google.com/gem/1kl4CP0hBA3ANwk2TPv0IFouJRUH9sC-m" target="_blank" class="gem-link">
+          <span class="gem" style="color: #ff5e78;">💎</span>
+          <div class="gem-label">Drill</div>
+      </a>
+      <a href="https://gemini.google.com/gem/1NtyzKWt_6ETZJyhw41vUDD_X5X-P0jDJ" target="_blank" class="gem-link">
+          <span class="gem" style="color: #fca311;">💎</span>
+          <div class="gem-label">Coach</div>
+      </a>
+    </div>
   </div>
 </main>
 
@@ -233,10 +162,8 @@
   function startTraining(topic) {
     const list = questBank[topic];
     currentQ = list[Math.floor(Math.random() * list.length)];
-    
     document.getElementById('map-view').classList.add('hidden');
     document.getElementById('quest-view').classList.remove('hidden');
-    
     document.getElementById('q-title').innerText = topic.toUpperCase();
     document.getElementById('q-text').innerText = currentQ.q;
     document.getElementById('q-feedback').innerText = "";
@@ -251,17 +178,13 @@
   }
 
   function doAttack() {
-    const userInput = document.getElementById('user-input').value;
-    if (userInput === "") return;
-    
-    const val = parseFloat(userInput);
+    const val = parseFloat(document.getElementById('user-input').value);
     const fb = document.getElementById('q-feedback');
-    
     if (val === currentQ.a) {
-      fb.innerHTML = "💥 CRITICAL HIT! Correct!"; fb.style.color = "var(--accent)";
-      setTimeout(goHome, 1500);
+      fb.innerHTML = "💥 SUCCESS!"; fb.style.color = "var(--accent)";
+      setTimeout(goHome, 1200);
     } else {
-      fb.innerHTML = "❌ DEFLECTED! Try again."; fb.style.color = "var(--danger)";
+      fb.innerHTML = "❌ TRY AGAIN!"; fb.style.color = "var(--danger)";
     }
   }
 </script>

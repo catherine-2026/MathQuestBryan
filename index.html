@@ -6,17 +6,12 @@
     <title>Maths Quest App</title>
     
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1a1a2e">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
     <script>
       if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('sw.js');
-        });
+        navigator.serviceWorker.register('sw.js');
       }
     </script>
+</head>
 
     <style>
       :root { --bg: #1a1a2e; --panel: #16213e; --accent: #4ecca3; --danger: #e94560; --gold: #fca311; }

@@ -132,15 +132,31 @@
 
 <script>
   const data = {
-    ratios: { t: "Ratio Realm", s: "Units Method", i: "If 5 units = 25, then 1 unit = 5.", q: "Ratio 2:5. If the larger part is 25, what is the smaller part?", a: 10 },
-    geometry: { t: "Angle Abyss", s: "Angle Sum", i: "Angles in a triangle = 180°.", q: "Two angles are 40° and 60°. What is the 3rd angle?", a: 80 },
-    percentage: { t: "Percent Palace", s: "9% GST", i: "Multiply by 0.09 for GST.", q: "What is 9% GST on a $100 item?", a: 9 },
-    volume: { t: "Volume Void", s: "L x W x H", i: "1000cm³ = 1 Litre.", q: "Cube with side 3cm. What is the volume?", a: 27 },
-    heuristics: { t: "Logic Labyrinth", s: "Assumption", i: "Assume all are one type, find gap.", q: "5 animals, 14 legs. (Cows=4, Chickens=2). How many cows?", a: 2 }
+    ratios: { id: 'ratios', t: "Ratio Realm", s: "Units Method", i: "If 5 units = 25, then 1 unit = 5.", q: "Ratio 2:5. If the larger part is 25, what is the smaller part?", a: 10 },
+    geometry: { id: 'geometry', t: "Angle Abyss", s: "Angle Sum", i: "Angles in a triangle = 180°.", q: "Two angles are 40° and 60°. What is the 3rd angle?", a: 80 },
+    percentage: { id: 'percentage', t: "Percent Palace", s: "9% GST", i: "Multiply by 0.09 for GST.", q: "What is 9% GST on a $100 item?", a: 9 },
+    volume: { id: 'volume', t: "Volume Void", s: "L x W x H", i: "1000cm³ = 1 Litre.", q: "Cube with side 3cm. What is the volume?", a: 27 },
+    heuristics: { id: 'heuristics', t: "Logic Labyrinth", s: "Assumption", i: "Assume all are one type, find gap.", q: "5 animals, 14 legs. (Cows=4, Chickens=2). How many cows?", a: 2 }
   };
 
-  let xp = 0;
+  // Load progress
+  let xp = parseInt(localStorage.getItem('mq_xp')) || 0;
+  let completedQuests = JSON.parse(localStorage.getItem('mq_completed')) || [];
   let currentTopic = null;
+
+  updateUI();
+
+  function updateUI() {
+    document.getElementById('xp-count').innerText = xp;
+    document.getElementById('xp-fill').style.width = (xp % 100) + "%";
+    document.getElementById('rank-name').innerText = xp >= 100 ? "Math Warrior ⚔️" : "Math Novice 🛡️";
+
+    // Show checkmarks
+    completedQuests.forEach(id => {
+        const span = document.getElementById('check-' + id);
+        if (span) span.innerText = '✅';
+    });
+  }
 
   function startTraining(topic) {
     currentTopic = data[topic];
@@ -152,7 +168,6 @@
     document.getElementById('q-text').innerText = currentTopic.q;
     document.getElementById('q-feedback').innerText = "";
     document.getElementById('user-input').value = "";
-    
     setTimeout(() => { document.getElementById('user-input').focus(); }, 100);
   }
 
@@ -165,14 +180,27 @@
     const val = parseInt(document.getElementById('user-input').value);
     const fb = document.getElementById('q-feedback');
     if (val === currentTopic.a) {
-      fb.innerHTML = "💥 SUCCESS! +20 XP"; fb.style.color = "#4ecca3";
-      xp += 20;
-      document.getElementById('xp-count').innerText = xp;
-      document.getElementById('xp-fill').style.width = (xp % 100) + "%";
-      if (xp >= 60) document.getElementById('rank-name').innerText = "Math Warrior ⚔️";
+      fb.innerHTML = "💥 SUCCESS!"; fb.style.color = "#4ecca3";
+      
+      // Only add XP and checkmark if not already done
+      if (!completedQuests.includes(currentTopic.id)) {
+          xp += 20;
+          completedQuests.push(currentTopic.id);
+          localStorage.setItem('mq_xp', xp);
+          localStorage.setItem('mq_completed', JSON.stringify(completedQuests));
+      }
+      
+      updateUI();
       setTimeout(goHome, 1200);
     } else {
-      fb.innerHTML = "❌ DEFLECTED! Try again."; fb.style.color = "#ff5e78";
+      fb.innerHTML = "❌ Try again!"; fb.style.color = "#ff5e78";
+    }
+  }
+
+  function resetGame() {
+    if(confirm("Reset all progress?")) {
+        localStorage.clear();
+        location.reload();
     }
   }
 </script>

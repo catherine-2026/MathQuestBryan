@@ -76,12 +76,17 @@
 <body>
 
 <main id="app"> <div class="status-bar">
-    <div style="display:flex; justify-content:space-between; font-size: 1rem;">
-      <span>🛡️ Rank: <span id="rank-name">Math Novice</span></span>
-      <span>⭐ XP: <span id="xp-count">0</span></span>
-    </div>
-    <div class="xp-bar-container"><div id="xp-fill"></div></div>
+    <div id="map-view">
+  <h2 style="color: var(--gold); text-align:center; font-size: 1.2rem;">🗺️ SELECT TRAINING ZONE</h2>
+  <div class="map-grid">
+    <button class="quest-btn" onclick="startTraining('ratios')"><span>🔀 Ratio Realm</span><span id="check-ratios"></span></button>
+    <button class="quest-btn" onclick="startTraining('geometry')"><span>📐 Angle Abyss</span><span id="check-geometry"></span></button>
+    <button class="quest-btn" onclick="startTraining('percentage')"><span>💰 Percent Palace</span><span id="check-percentage"></span></button>
+    <button class="quest-btn" onclick="startTraining('volume')"><span>💧 Volume Void</span><span id="check-volume"></span></button>
+    <button class="quest-btn" onclick="startTraining('heuristics')"><span>🧠 Logic Labyrinth</span><span id="check-heuristics"></span></button>
   </div>
+  <button onclick="resetGame()" style="margin-top:20px; background:none; border:none; color:var(--danger); font-size:0.7rem; cursor:pointer; width:100%;">Reset Progress</button>
+</div>
   
   <header style="text-align:center">
     <h1 style="margin: 0; color: var(--gold); font-size: 1.8rem;">⚔️ MATH QUEST ⚔️</h1>

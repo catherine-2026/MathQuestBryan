@@ -65,7 +65,10 @@
   .gem { font-size: 1.5rem !important; }
   .gem-label { font-size: 0.6rem !important; }
 
-  .hidden { display: none !important; }
+  .hidden { 
+  display: none !important; 
+  pointer-events: none !important; 
+}
 
   /* Style for the question text to ensure it's white and fits */
   #q-text { 
@@ -75,3 +78,4 @@
     margin-bottom: 15px;
   }
 </style>
+

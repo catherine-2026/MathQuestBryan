@@ -6,13 +6,13 @@
     <meta name="description" content="Maths Quest: An interactive adventure for Bryan to master ratios, geometry, and logic.">
     <title>Maths Quest App</title>
     
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#1a1a2e">
 
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('sw.js');
+         navigator.serviceWorker.register('./sw.js');
         });
       }
     </script>

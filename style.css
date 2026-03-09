@@ -6,80 +6,72 @@
     --danger: #ff5e78; 
     --gold: #fca311; 
     --text-main: #ffffff;
-    --text-dim: #d1d1d1; 
-    .quest-btn {
-  display: flex;
-  justify-content: space-between; /* This pushes text to left and checkmark to right */
-  align-items: center;
-}
+  }
   
-  /* Prevent horizontal scrolling and handle high-density screens */
-  html, body {
-    overflow-x: hidden;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-    -webkit-text-size-adjust: 100%;
+  /* This prevents the phone from 'zooming in' by default */
+  html, body { 
+    overflow-x: hidden; 
+    width: 100%; 
+    height: 100%;
+    margin: 0; 
+    padding: 0; 
+    background: var(--bg);
+    display: flex;
+    justify-content: center;
   }
 
-  body { 
-    background: var(--bg); 
-    color: var(--text-main); 
-    font-family: 'Segoe UI', system-ui, sans-serif; 
-    display: flex; 
-    justify-content: center; 
-    padding: 10px; /* Reduced from 20px */
-  }
-body {
-    font-size: 18px; /* Makes all text slightly larger for easier reading */
-}
-
-input {
-    font-size: 16px; /* Important: iPhones will "jump-zoom" if your input text is smaller than 16px */
-}
   #app { 
-    touch-action: auto; 
-    width: 92vw;       /* Take up 92% of the phone's width */
-    max-width: 400px;  /* But don't get too big on a laptop */
-    margin: 10px auto; /* Centers it with a small gap at the top */
-    padding: 15px;
-    box-sizing: border-box; /* This is the most important line! */
-    height: auto; 
-    min-height: 100vh; /* Takes up at least the full screen height */
-}
+    width: 95vw; 
+    max-width: 360px; /* Shorter width to fit all handphones */
+    background: var(--panel); 
+    border: 3px solid var(--accent); 
+    border-radius: 15px; 
+    padding: 12px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: 92vh; /* Fixes height so it doesn't scroll forever */
+    margin-top: 10px;
+    /* This is the magic line to make the 'paparan' fit */
+    zoom: 0.9; 
+  }
 
-  /* Responsive Font Sizes */
-  h1 { font-size: 1.5rem; margin-bottom: 10px; }
-  h2 { font-size: 1.1rem; }
-  
-  .status-bar { padding: 10px; font-size: 0.85rem; }
-  .quest-btn { padding: 14px; font-size: 1rem; width: 100%; }
-  
-  .scroll-section { padding: 10px; font-size: 0.9rem; }
-  input { 
-  font-size: 16px; /* Prevents iOS from auto-zooming on focus */
-  padding: 12px;
-  width: 90%;
-}
-  .attack-btn { font-size: 1rem; padding: 12px; }
+  header { text-align: center; margin-bottom: 10px; }
+  h1 { font-size: 1.4rem !important; margin: 0; }
 
-  /* Mobile Specific Adjustments */
-  @media (max-width: 400px) {
-    body { padding: 5px; }
-    #app { padding: 10px; border-width: 2px; }
-    h1 { font-size: 1.3rem; }
-    .quest-btn { font-size: 0.9rem; padding: 12px; }
+  .map-grid { 
+    display: grid; 
+    gap: 8px; 
+    flex-grow: 1; /* Pushes gems to the bottom */
+  }
+
+  .quest-btn { 
+    background: #0f3460; 
+    border: 2px solid var(--accent); 
+    color: white; 
+    padding: 12px; 
+    border-radius: 8px; 
+    font-size: 0.95rem;
+    font-weight: bold;
+    text-align: left;
+  }
+
+  /* Shrink the gems so they don't take up too much space */
+  .gem-container { 
+    margin-top: auto; 
+    padding-top: 10px; 
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .gem { font-size: 1.5rem !important; }
+  .gem-label { font-size: 0.6rem !important; }
+
+  .hidden { display: none !important; }
+
+  /* Style for the question text to ensure it's white and fits */
+  #q-text { 
+    color: #ffffff !important; 
+    font-size: 1.1rem; 
+    line-height: 1.3;
+    margin-bottom: 15px;
   }
 </style>
-@media screen and (max-width: 480px) {
-    h1 { font-size: 1.4rem; }      /* Smaller Title */
-    .quest-btn { padding: 12px; font-size: 0.9rem; } /* Smaller Buttons */
-    .status-bar { font-size: 0.8rem; }
-    body { padding: 5px; }         /* Less wasted space on edges */
-}
-
-
-
-
-
-

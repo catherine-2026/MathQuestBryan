@@ -1,7 +1,7 @@
 {
   "name": "Maths Quest App",
   "short_name": "MathsQuest",
-  "start_url": "index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#1a1a2e",
   "theme_color": "#4ecca3",

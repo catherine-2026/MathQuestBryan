@@ -1,10 +1,10 @@
 {
-  "name": "Bryan Maths App",
-  "short_name": "BryanMaths",
-  "start_url": ".",
+  "name": "Maths Quest App",
+  "short_name": "MathsQuest",
+  "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#000000",
+  "background_color": "#1a1a2e",
+  "theme_color": "#4ecca3",
   "icons": [
     {
       "src": "icon-192.png",

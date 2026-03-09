@@ -13,12 +13,12 @@
       body { font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; padding: 10px; box-sizing: border-box; }
       #app { 
         width: 100%; max-width: 400px; background: var(--panel); border: 3px solid var(--accent); 
-        border-radius: 15px; padding: 20px; box-sizing: border-box; min-height: 85vh;
+        border-radius: 15px; padding: 20px; box-sizing: border-box; min-height: 90vh;
         display: flex; flex-direction: column; position: relative;
       }
       header { text-align: center; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
       #q-text { color: #ffffff !important; font-size: 1.3rem; font-weight: 500; margin-bottom: 20px; display: block; }
-      .map-grid { display: grid; gap: 12px; }
+      .map-grid { display: grid; gap: 12px; margin-bottom: 20px; }
       .quest-btn { 
         background: #0f3460; border: 2px solid var(--accent); color: white; padding: 18px; 
         border-radius: 10px; cursor: pointer; font-weight: bold; text-align: left; font-size: 1.1rem;
@@ -27,12 +27,16 @@
       input { padding: 15px; width: 80%; border-radius: 8px; border: 2px solid var(--accent); font-size: 20px; margin-bottom: 15px; text-align: center; color: #000; background: #fff; font-weight: bold; }
       .attack-btn { background: var(--danger); color: white; padding: 16px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1.2rem; }
       .back-btn { background: transparent; border: 1px solid #aaa; color: #aaa; cursor: pointer; margin-bottom: 20px; padding: 8px 15px; border-radius: 5px; }
-      .gem-container { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: auto; padding-top: 30px; }
-      .gem-row { display: flex; justify-content: space-evenly; width: 100%; margin-bottom: 20px; }
+      
+      /* GEM SECTION STYLES */
+      .gem-container { margin-top: auto; padding-top: 20px; width: 100%; }
+      .gem-row { display: flex; justify-content: space-evenly; width: 100%; margin-bottom: 15px; }
       .gem-link { text-decoration: none; text-align: center; flex: 1; }
-      .gem { font-size: 1.8rem; display: block; margin-bottom: 5px; }
+      .gem { font-size: 1.8rem; display: block; margin-bottom: 5px; cursor: pointer; }
       .gem-label { font-size: 0.65rem; color: #fff; opacity: 0.9; font-weight: bold; }
+      
       .hidden { display: none !important; pointer-events: none !important; visibility: hidden !important; }
+      
       #victory-screen {
         position: absolute; top: 0; left: 0; width: 100%; height: 100%;
         background: rgba(22, 33, 62, 0.98); display: flex; flex-direction: column;
@@ -86,7 +90,7 @@
       <a href="https://gemini.google.com/gem/1kl4CP0hBA3ANwk2TPv0IFouJRUH9sC-m" target="_blank" class="gem-link"><span class="gem">💎</span><div class="gem-label">Drill</div></a>
       <a href="https://gemini.google.com/gem/1NtyzKWt_6ETZJyhw41vUDD_X5X-P0jDJ" target="_blank" class="gem-link"><span class="gem">💎</span><div class="gem-label">Coach</div></a>
     </div>
-    <div style="font-size: 0.6rem; color: rgba(255,255,255,0.4); text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; width: 100%; margin-top: 10px;">
+    <div style="font-size: 0.6rem; color: rgba(255,255,255,0.4); text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; width: 100%;">
       Copyright © 2026 [Catherine N.C.L]. All Rights Reserved.
     </div>
   </div>

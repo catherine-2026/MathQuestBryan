@@ -35,15 +35,16 @@ input {
 }
   #app { 
     touch-action: auto; 
-    width: 100%; 
-    max-width: 450px; 
-    background: var(--panel); 
-    border: 3px solid var(--accent); 
-    border-radius: 15px; 
-    padding: 15px; /* Reduced for mobile */
-    box-sizing: border-box; /* Crucial: keeps padding inside the width */
-    box-shadow: 0 0 20px rgba(0,0,0,0.5); 
-  }
+    width: 90vw;        /* Uses 90% of the screen width */
+    max-width: 400px;   /* Won't get too big on tablets */
+    margin: 0 auto;     /* Centers it */
+    transform: scale(0.9); /* Physically shrinks the whole app by 10% */
+    transform-origin: top center; /* Makes sure it shrinks from the top */
+}
+#app {
+    height: auto; 
+    min-height: 100vh; /* Takes up at least the full screen height */
+}
 
   /* Responsive Font Sizes */
   h1 { font-size: 1.5rem; margin-bottom: 10px; }
@@ -68,5 +69,6 @@ input {
     .quest-btn { font-size: 0.9rem; padding: 12px; }
   }
 </style>
+
 
 

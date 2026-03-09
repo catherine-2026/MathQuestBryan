@@ -13,35 +13,36 @@
       body { 
         margin: 0; padding: 5px; background: var(--bg); 
         font-family: sans-serif; color: white;
-        height: 100vh; display: flex; justify-content: center; overflow: hidden;
+        height: 100vh; display: flex; justify-content: center;
       }
       #app { 
-        width: 100%; max-width: 380px; height: 100%;
+        width: 100%; max-width: 380px; min-height: 100%;
         background: var(--panel); border: 2px solid var(--accent); 
         border-radius: 12px; display: flex; flex-direction: column; padding: 10px;
+        position: relative;
       }
       header { text-align: center; padding-bottom: 5px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-      h1 { margin: 0; color: var(--gold); font-size: 1.3rem; }
-      .bryan-line { font-size: 0.9rem; color: var(--gold); font-weight: bold; margin: 3px 0; }
+      h1 { margin: 0; color: var(--gold); font-size: 1.1rem; }
+      .bryan-line { font-size: 0.75rem; color: var(--gold); font-weight: bold; margin: 2px 0; }
       
-      #game-content { flex: 1; overflow-y: auto; padding: 10px 0; }
+      #game-content { flex: 1; padding: 10px 0; }
       
-      .map-grid { display: grid; gap: 8px; }
+      .map-grid { display: grid; gap: 6px; }
       .quest-btn { 
-        background: #0f3460; border: 1px solid var(--accent); color: white; padding: 12px; 
-        border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 0.95rem; text-align: left;
+        background: #0f3460; border: 1px solid var(--accent); color: white; padding: 10px; 
+        border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.85rem; text-align: left;
       }
-      .boss-area { border: 2px dashed var(--danger); padding: 15px; text-align: center; border-radius: 10px; background: rgba(0,0,0,0.2); }
-      #q-text { font-size: 1.1rem; margin-bottom: 10px; display: block; }
-      input { padding: 10px; width: 100%; border-radius: 5px; border: 2px solid var(--accent); font-size: 1.2rem; margin-bottom: 10px; text-align: center; }
+      .boss-area { border: 2px dashed var(--danger); padding: 12px; text-align: center; border-radius: 10px; background: rgba(0,0,0,0.2); }
+      #q-text { font-size: 0.95rem; margin-bottom: 8px; display: block; }
+      input { padding: 8px; width: 100%; border-radius: 5px; border: 2px solid var(--accent); font-size: 1.1rem; margin-bottom: 8px; text-align: center; }
       
-      .attack-btn { background: var(--danger); color: white; padding: 12px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; }
-      .back-btn { background: rgba(255,255,255,0.1); border: 1px solid #aaa; color: #fff; padding: 5px 10px; border-radius: 4px; font-size: 0.8rem; margin-bottom: 10px; }
+      .attack-btn { background: var(--danger); color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; font-size: 0.9rem; }
+      .back-btn { background: rgba(255,255,255,0.1); border: 1px solid #aaa; color: #fff; padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; margin-bottom: 8px; }
 
-      footer { padding-top: 5px; border-top: 1px solid rgba(255,255,255,0.1); }
+      footer { padding-top: 5px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: auto; }
       .gem-row { display: flex; justify-content: space-around; margin-bottom: 5px; }
-      .gem-link { text-decoration: none; text-align: center; color: white; font-size: 0.6rem; }
-      .gem { font-size: 1.3rem; display: block; }
+      .gem-link { text-decoration: none; text-align: center; color: white; font-size: 0.55rem; }
+      .gem { font-size: 1.1rem; display: block; }
       
       .hidden { display: none !important; }
       
@@ -57,9 +58,9 @@
   <header>
     <h1>⚔️ MATH QUEST ⚔️</h1>
     <p class="bryan-line">✨ Created with ❤️ for Bryan ✨</p>
-    <div style="font-size: 1rem; font-weight: bold; color: var(--accent);">
+    <div style="font-size: 0.85rem; font-weight: bold; color: var(--accent);">
       Score: <span id="score-display">0</span>
-      <button onclick="resetScore()" style="background:none; border:1px solid var(--gold); color:var(--gold); font-size:0.6rem; padding:2px 5px; margin-left:10px; border-radius:3px;">Reset</button>
+      <button onclick="resetScore()" style="background:none; border:1px solid var(--gold); color:var(--gold); font-size:0.55rem; padding:1px 4px; margin-left:8px; border-radius:3px;">Reset</button>
     </div>
   </header>
 
@@ -77,20 +78,20 @@
     <div id="quest-view" class="hidden">
       <button class="back-btn" onclick="goHome()">⬅️ Back</button>
       <div class="boss-area">
-        <h3 id="q-title" style="margin:0 0 10px 0; color:var(--accent);"></h3>
+        <h4 id="q-title" style="margin:0 0 8px 0; color:var(--accent); font-size: 0.9rem;"></h4>
         <p id="q-text"></p>
         <input type="number" id="user-input" inputmode="numeric">
         <button class="attack-btn" onclick="doAttack()">ATTACK!</button>
-        <p id="q-feedback" style="margin-top: 10px;"></p>
+        <p id="q-feedback" style="margin-top: 8px; font-size: 0.8rem;"></p>
       </div>
     </div>
   </div>
 
   <div id="victory-screen" class="hidden">
-    <h1 style="font-size: 3rem;">🏆</h1>
-    <h2>LEVEL UP!</h2>
-    <p>Bryan defeated the challenge!</p>
-    <button class="attack-btn" onclick="goHome()" style="margin-top: 15px; width: 150px;">Next</button>
+    <h1 style="font-size: 2.5rem;">🏆</h1>
+    <h2 style="font-size: 1.2rem;">LEVEL UP!</h2>
+    <p style="font-size: 0.9rem;">Bryan defeated the challenge!</p>
+    <button class="attack-btn" onclick="goHome()" style="margin-top: 15px; width: 120px;">Next</button>
   </div>
 
   <footer>
